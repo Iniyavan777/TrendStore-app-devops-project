@@ -3,7 +3,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0"
+      version = "4.50.0"
     }
   }
 }
@@ -101,7 +101,7 @@ resource "aws_internet_gateway" "main" {
 
 # Elastic IP for NAT Gateway
 resource "aws_eip" "nat" {
-  domain = "vpc"
+  vpc = true
 
   tags = {
     Name = "${var.project_name}-eip"
@@ -367,7 +367,7 @@ resource "aws_iam_role_policy_attachment" "eks_registry_policy" {
 resource "aws_eks_cluster" "main" {
   name            = var.eks_cluster_name
   role_arn        = aws_iam_role.eks_cluster_role.arn
-  version         = "1.27"
+  version         = "1.26"
 
   vpc_config {
     subnet_ids              = [aws_subnet.private_1.id, aws_subnet.private_2.id, aws_subnet.public_1.id, aws_subnet.public_2.id]
@@ -398,7 +398,7 @@ resource "aws_eks_node_group" "main" {
     min_size     = 1
   }
 
-  instance_types = ["t3.medium"]
+  instance_types = ["t3.micro"]
 
   tags = {
     Name = "${var.project_name}-node-group"

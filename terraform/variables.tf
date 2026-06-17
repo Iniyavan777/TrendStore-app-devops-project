@@ -15,7 +15,7 @@ variable "vpc_cidr" {
 }
 
 variable "instance_type" {
-  default = "t2.medium"
+  default = "t2.micro"
 }
 
 variable "eks_cluster_name" {
